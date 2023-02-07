@@ -1,0 +1,69 @@
+print("Welcome to the Number Guessing Game!\nI'm thinking of a number between 1 and 100")
+
+import random
+  
+number = 0
+def random_number():
+  global number
+  num_list = []
+  for i in range(1,101):
+    num_list.append(i)
+  number = random.choice(num_list)
+  #print(number)
+
+attempts = 0
+def choose_level():
+  global attempts
+  attempts = 0
+  is_level = True
+  while is_level:
+    level = input("Choose a difficulty. Type 'easy' or 'hard': ").lower()  
+    if level == "easy":
+      print("You have 10 attempts to guess to the number.")
+      attempts += 10
+      is_level = False
+    elif level == "hard":
+      print("You have 5 attempts to guess the number.")
+      attempts += 5
+      is_level = False
+    else:
+      print("You entered an invalid answer. Try again.")
+
+user_guess = 0
+def guess():
+  global user_guess
+  user_guess = int(input("Make a guess: "))
+  return user_guess
+
+def check():
+  global attempts
+  if user_guess > 100 or user_guess < 1:
+    print("Invalid answer. Guess again.")
+  elif user_guess == number:    
+    print(f"You guessed it! The number is {number}.")
+    #player()
+  elif user_guess > number:
+    attempts -= 1
+    print(f"Too high.\nYou have {attempts} attempts left.")
+  elif user_guess < number:
+    attempts -= 1 
+    print(f"Too low.\nYou have {attempts} attempts left.")
+
+def game():
+  while attempts > 0 and user_guess != number:
+    guess()
+    check()
+  if attempts == 0:
+    print(f"The number was {number}. You lost!")
+
+player = ''
+def number_game():
+  global player
+  random_number()
+  choose_level()
+  game()
+  player = input("Do you want to play again? Type 'yes' or 'no': ")
+
+number_game()
+if player == 'yes':
+  number_game()
